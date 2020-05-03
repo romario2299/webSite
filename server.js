@@ -1,14 +1,15 @@
 const express = require('express');
-const app = express();
 const axios = require('axios').default;
 const firebase = require('firebase');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 require('./config');
-
+//Servidor
+const app = express();
+//Configuración credenciales de acceso Instagram
 access_token = process.env.ACCESS_TOKEN;
 app_secret = process.env.APP_SECRET;
-
+//Configuración credenciales de acceso Firebase
 firebaseConfig = {
     apiKey: process.env.APIKEY,
     authDomain: process.env.AUTHDOMAIN,
@@ -19,20 +20,19 @@ firebaseConfig = {
     appId: process.env.APPID
   }; 
 firebase.initializeApp(firebaseConfig);
-
-// parse application/x-www-form-urlencoded
+// Configuración de req.body
 app.use(bodyParser.urlencoded({ extended: false }))
-// parse application/json
 app.use(bodyParser.json())
-//Configuración de Cors
-app.use(cors(
-    {
-        origin: "*", //servidor que deseas que consuma o (*) en caso que sea acceso libre
+//Configuración de Cors para determinar los sitios permitidos de acceso
+app.use(cors({
+        origin: "*", //servidor que deseas que consuma
         credentials: true
     }
   ));
-
+//Acceso publico a los archivos de frontend
 app.use( express.static( __dirname + '/public') );
+
+//Solicitudes HTTT GET y POST
 
 app.get('/instagram', (req, resp) => {
     axios.get(`https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=${app_secret}&access_token=${access_token}`)
@@ -58,6 +58,11 @@ app.post('/firestore', (req, resp) => {
         mensaje: usuario.mensaje
       });
     resp.send(result);
+});
+//Solución entre Angular y el servidor: al recargar la pagina host/* primero
+//redirecciona al index y luego resuelve la ruta. Así la ruta la resuelve Angular.
+app.get('/*', function(req, res) { 
+    res.sendFile(__dirname + '/public/index.html');
 });
 
 app.listen(process.env.PORT, () => {

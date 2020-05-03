@@ -51,7 +51,6 @@ app.get('/instagram', (req, resp) => {
 app.post('/firestore', (req, resp) => {
     const db = firebase.firestore();
     usuario = req.body;
-    console.log(usuario);
     let result = db.collection('bienvenido').add({
         name: usuario.nombre,
         email: usuario.email,
@@ -61,5 +60,5 @@ app.post('/firestore', (req, resp) => {
 });
 
 app.listen(process.env.PORT, () => {
-    console.log('servidor corriendo');
+    console.log('servidor corriendo', process.env.PORT);
 });

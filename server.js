@@ -27,7 +27,7 @@ app.use(bodyParser.json())
 //Configuración de Cors
 app.use(cors(
     {
-        origin: "localhost:4200", //servidor que deseas que consuma o (*) en caso que sea acceso libre
+        origin: "http://localhost:4200", //servidor que deseas que consuma o (*) en caso que sea acceso libre
         credentials: true
     }
   ));

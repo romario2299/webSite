@@ -27,11 +27,12 @@ app.use(bodyParser.json())
 //Configuración de Cors
 app.use(cors(
     {
-        origin: "http://localhost:4200", //servidor que deseas que consuma o (*) en caso que sea acceso libre
+        origin: "*", //servidor que deseas que consuma o (*) en caso que sea acceso libre
         credentials: true
     }
   ));
 
+app.use( express.static( __dirname + '/public') );
 
 app.get('/instagram', (req, resp) => {
     axios.get(`https://graph.instagram.com/access_token?grant_type=ig_exchange_token&client_secret=${app_secret}&access_token=${access_token}`)

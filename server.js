@@ -15,7 +15,7 @@ firebaseConfig = {
     storageBucket: process.env.STORAGEBUCKET,
     messagingSenderId: process.env.MESSAGINGSENDERID,
     appId: process.env.APPID
-  };
+  }; 
 firebase.initializeApp(firebaseConfig);
 
 // parse application/x-www-form-urlencoded

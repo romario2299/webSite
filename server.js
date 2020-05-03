@@ -3,6 +3,8 @@ const app = express();
 const axios = require('axios').default;
 const firebase = require('firebase');
 const bodyParser = require('body-parser');
+const cors = require('cors');
+require('./config');
 
 access_token = process.env.ACCESS_TOKEN;
 app_secret = process.env.APP_SECRET;
@@ -22,6 +24,13 @@ firebase.initializeApp(firebaseConfig);
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
+//Configuración de Cors
+app.use(cors(
+    {
+        origin: "localhost:4200", //servidor que deseas que consuma o (*) en caso que sea acceso libre
+        credentials: true
+    }
+  ));
 
 
 app.get('/instagram', (req, resp) => {
